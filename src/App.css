@@ -6,31 +6,19 @@
 .App > div {
   margin-right: 50px;
 }
-.completedTask{
+
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+}
+
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
   opacity: 0.5;
 }
-.task{
-  font-weight: bold;
-}
-.headerFilter{
-  margin-left: 20px;
-  font-size: 15px;
-  color: lightseagreen;
-  display: inline-block;
-  border-radius: 25px;
-  background-color: lightgray;
-  padding: 5px;
-}
-.title{
-  display: block;
-}
-.activeBtn{
-  border: 1px solid black;
-  background-color: lightseagreen;
-
-}
-.error{
-  outline: none;
-  border:2px solid red;
-}
-
