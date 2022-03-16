@@ -2,8 +2,6 @@ import React from 'react';
 import TodoListHeader from "./TodoListHeader";
 import TasksList from "./TasksList";
 import {FilterValuesType} from "./App";
-import AddTaskForm from "./AddTaskForm";
-import {v1} from "uuid";
 
 type ToDoListPropsType = {
     todolistID:string
