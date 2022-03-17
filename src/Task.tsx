@@ -1,6 +1,8 @@
 import React , {ChangeEvent} from 'react';
 import {TaskType} from "./ToDoList";
 import EditableSpan from "./EditableSpan";
+import {IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 type TaskPropType = TaskType & {
     removeTask: (todolistID:string,taskID:string)=> void
@@ -28,7 +30,10 @@ const Task = (props: TaskPropType) => {
                 />
                 {/*<span className={completedClass}>{props.title}</span>*/}
                 <EditableSpan oldTitle = {props.title} nameOfClass = {completedClass} callBack = {(title)=>updateTaskHandler(title)}/>
-                <button onClick={removeTask}>x</button>
+                {/*<button onClick={removeTask}>x</button>*/}
+                <IconButton aria-label="delete" onClick={removeTask}>
+                    <Delete />
+                </IconButton>
             </li>
 
     );

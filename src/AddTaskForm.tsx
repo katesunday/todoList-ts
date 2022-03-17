@@ -1,4 +1,5 @@
 import React , {useState , KeyboardEvent , ChangeEvent , CSSProperties} from 'react';
+import {Button , Grid , TextField} from "@material-ui/core";
 
 type AddTaskFormPropsType = {
     addTask: ( title:string) =>void
@@ -38,12 +39,30 @@ const AddTaskForm = (props:AddTaskFormPropsType) => {
     const errorInputClass = error ? 'error': ''
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeSetTitle}
-                   onKeyPress={onKeyPressSetTitle}
-                   className={errorInputClass}
+            {/*<input value={title}*/}
+            {/*       onChange={onChangeSetTitle}*/}
+            {/*       onKeyPress={onKeyPressSetTitle}*/}
+            {/*       className={errorInputClass}*/}
+            {/*/>*/}
+            <TextField id="outlined-basic" label={errorInputClass} variant="outlined"
+                       value={title}
+                       onChange={onChangeSetTitle}
+                       onKeyPress={onKeyPressSetTitle}
+                       className={errorInputClass}
+                       size={"small"}
+                       error={!!errorInputClass}
+                // helperText={error}
             />
-            <button onClick={onClickAddTask}>+</button>
+            <Button onClick={onClickAddTask}
+                    variant="contained"
+                    sx={{
+                        maxWidth: '40px',
+                        maxHeight: '40px',
+                        minWidth: '40px',
+                        minHeight: '40px',
+                    }}
+            >+</Button>
+            {/*<button onClick={onClickAddTask}>+</button>*/}
             {errorMessage}
         </div>
     );

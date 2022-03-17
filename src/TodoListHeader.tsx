@@ -2,6 +2,8 @@ import React from 'react';
 import AddTaskForm from "./AddTaskForm";
 import {FilterValuesType} from "./App";
 import EditableSpan from "./EditableSpan";
+import {IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 type TodoListHeaderPropsType = {
     title:string
@@ -24,9 +26,15 @@ const TodoListHeader = (props:TodoListHeaderPropsType) => {
     return (
         <>
             <h3>
-                <EditableSpan oldTitle={props.title} nameOfClass={'title'} callBack={updateTodoListTitleHandler}/>
+                <EditableSpan oldTitle={props.title} nameOfClass={'title'} callBack={updateTodoListTitleHandler}
+
+                />
+
+                {/*<button onClick={removeTodoList}>remove all todolist</button>*/}
+                <IconButton aria-label="delete" onClick={removeTodoList}>
+                    <Delete />
+                </IconButton>
                 <div className='headerFilter'>{props.filter}</div>
-                <button onClick={removeTodoList}>remove all todolist</button>
             </h3>
 
             <AddTaskForm
