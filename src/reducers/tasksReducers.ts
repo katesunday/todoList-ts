@@ -1,7 +1,7 @@
 import {TaskType} from "../ToDoList";
 import {addNewTodoListACType} from "./todolistsReducer";
 
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -70,8 +70,8 @@ export const updateTaskAC = (todolistID:string,taskID: string, updateTitle:strin
     }as const
 }
 
- type addNewTodolistACType = ReturnType<typeof updateNewTodolistkAC>
- export const updateNewTodolistkAC = (newID:string)=>{
+ type addNewTodolistACType = ReturnType<typeof updateNewTodolistAC>
+ export const updateNewTodolistAC = (newID:string)=>{
     return{
        title:"ADD-NEW-TODOLIST",
         payload: {newID}

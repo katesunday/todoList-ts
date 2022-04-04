@@ -16,7 +16,7 @@ import {
     removeTasksAC ,
     tasksReducers ,
     updateTaskAC ,
-    updateRemovedTodoListAC , updateNewTodolistkAC
+    updateRemovedTodoListAC , updateNewTodolistAC
 } from "./reducers/tasksReducers";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container , Grid , Paper} from "@material-ui/core";
@@ -103,7 +103,7 @@ function App() {
     const addNewTask = (title: string) => {
         let newID = v1()
         todolistsDispatch(addNewTodoListAC(title,newID))
-        tasksDispatch(updateNewTodolistkAC(newID))
+        tasksDispatch(updateNewTodolistAC(newID))
         // setTodolists([{id: newID, title: title, filter: "all"},...todolists])
         //setTasks({...tasks,[newID]:[]})
 
