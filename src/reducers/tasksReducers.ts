@@ -1,14 +1,34 @@
 import {TaskType} from "../ToDoList";
-import {addNewTodoListACType} from "./todolistsReducer";
+import {addNewTodoListACType , removeTodoListACType} from "./todolistsReducer";
+import {v1} from "uuid";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-export const tasksReducers = (state:TasksStateType,action:tasksReducersAC): TasksStateType =>{
-    switch (action.title){
+export let todolistID1 = v1();
+export let todolistID2 = v1();
+const initialState:TasksStateType = {
+        [todolistID1]: [
+            {id: v1() , title: "HTML&CSS" , isDone: true} ,
+            {id: v1() , title: "JS" , isDone: true} ,
+            {id: v1() , title: "ReactJS" , isDone: false} ,
+            {id: v1() , title: "Rest API" , isDone: false} ,
+            {id: v1() , title: "GraphQL" , isDone: false} ,
+        ] ,
+        [todolistID2]: [
+            {id: v1() , title: "Milk" , isDone: true} ,
+            {id: v1() , title: "Juice" , isDone: true} ,
+            {id: v1() , title: "blabla" , isDone: false} ,
+            {id: v1() , title: "smth else" , isDone: false} ,
+            {id: v1() , title: "bananas" , isDone: false} ,
+        ]
+    }
+
+export const tasksReducers = (state:TasksStateType = initialState,action:tasksReducersAC): TasksStateType =>{
+    switch (action.type){
         case "REMOVE-TASKS":{
-          return  {...state,[action.payload.todolistID]:state[action.payload.todolistID].filter(el=>el.id!==action.payload.taskID)}
+          return  {...state,[action.todolistID]:state[action.todolistID].filter(el=>el.id!==action.taskID)}
         }
         case "ADD-TASKS":{
             let task = {id: action.payload.newID, title: action.payload.title, isDone:false}
@@ -27,8 +47,10 @@ export const tasksReducers = (state:TasksStateType,action:tasksReducersAC): Task
         case "ADD-NEW-TODOLIST": {
             return {...state,[action.payload.newID]:[]}
         }
-        case "UPDATE-REMOVED-TODOLIST":{
-            return {...state}
+        case "REMOVE-TODOLIST":{
+            let copyState = {...state}
+            delete copyState[action.payload.todolistID]
+            return copyState
         }
         default: return state
     }
@@ -36,20 +58,21 @@ export const tasksReducers = (state:TasksStateType,action:tasksReducersAC): Task
 }
 
 type tasksReducersAC = removeTasksACType | addTasksACType | changeTaskStatusACType |
-    updateTaskACType | updateRemovedTodoListACType | addNewTodoListACType |addNewTodolistACType
+    updateTaskACType | removeTodoListACType | addNewTodoListACType |addNewTodolistACType
 
 type removeTasksACType =  ReturnType<typeof removeTasksAC>
 export const removeTasksAC = (todolistID:string,taskID: string)=>{
     return{
-        title: "REMOVE-TASKS",
-        payload:{todolistID,taskID}
+        type: "REMOVE-TASKS",
+        todolistID:todolistID,
+        taskID:taskID
     } as const
 }
 
 type addTasksACType = ReturnType<typeof addTasksAC>
 export const addTasksAC = (todolistID:string,title:string,newID:string)=>{
     return{
-        title: "ADD-TASKS",
+        type: "ADD-TASKS",
         payload:{todolistID,title,newID}
     }as const
 }
@@ -57,7 +80,7 @@ export const addTasksAC = (todolistID:string,title:string,newID:string)=>{
 type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
 export const changeTaskStatusAC = (todolistID:string,taskID: string, isDone:boolean)=>{
     return{
-        title: "CHANGE-TASK-STATUS",
+        type: "CHANGE-TASK-STATUS",
         payload:{todolistID,taskID,isDone}
     }as const
 }
@@ -65,7 +88,7 @@ export const changeTaskStatusAC = (todolistID:string,taskID: string, isDone:bool
 type updateTaskACType = ReturnType<typeof updateTaskAC>
 export const updateTaskAC = (todolistID:string,taskID: string, updateTitle:string)=>{
     return{
-        title: "UPDATE-TASK",
+        type: "UPDATE-TASK",
         payload:{todolistID,taskID,updateTitle}
     }as const
 }
@@ -73,14 +96,8 @@ export const updateTaskAC = (todolistID:string,taskID: string, updateTitle:strin
  type addNewTodolistACType = ReturnType<typeof updateNewTodolistAC>
  export const updateNewTodolistAC = (newID:string)=>{
     return{
-       title:"ADD-NEW-TODOLIST",
+        type:"ADD-NEW-TODOLIST",
         payload: {newID}
     } as const
 }
 
-type updateRemovedTodoListACType = ReturnType<typeof updateRemovedTodoListAC>
-export const updateRemovedTodoListAC = ()=>{
-    return{
-        title:"UPDATE-REMOVED-TODOLIST"
-    }as const
-}
