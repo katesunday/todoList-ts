@@ -1,8 +1,7 @@
-import React  from 'react';
+import React , {useCallback} from 'react';
 import './App.css';
 import ToDoList from "./ToDoList";
 import {v1} from "uuid";
-import AddTaskForm from "./AddTaskForm";
 import {
     filterReducerAC ,
     updateTodoListTitleAC ,
@@ -19,6 +18,7 @@ import ButtonAppBar from "./components/ButtonAppBar";
 import {Container , Grid , Paper} from "@material-ui/core";
 import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType} from "./store/store";
+import AddItemForm from "./AddItemForm";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistsType = {
@@ -34,32 +34,26 @@ function App() {
     const tasks = useSelector<AppRootStateType,TasksStateType>(state=>state.tasks)
 
 
-    const changeFilter = (todolistID: string , value: FilterValuesType) => {
+    const changeFilter = useCallback((todolistID: string , value: FilterValuesType) => {
         dispatch(filterReducerAC(todolistID , value))
-        // setTodolists(todolists.map((el)=> el.id ===todolistID ? {...el,filter:value} : el))
-        // берем объект идем мапом и если в нем у элемента айдишка равна айдишке
-        // из аргумента, то копируем остальной кусок объекта и даем туда новое
-        // значение фильта - вэлью(второй аргумент)
-    }
+    },[dispatch])
 
-    const removeTask = (todolistID: string , taskID: string) => {
+    const removeTask = useCallback((todolistID: string , taskID: string) => {
         dispatch(removeTasksAC(todolistID , taskID))
-        //setTasks({...tasks,[todolistID]:tasks[todolistID].filter(el=>el.id!==taskID)})
 
-    }
+    },[dispatch])
 
-    const addTask = (todolistID: string , title: string) => {
+    const addTask = useCallback((todolistID: string , title: string) => {
         let newID = v1()
         dispatch(addTasksAC(todolistID , title , newID))
-        // setTasks({...tasks,[todolistID]:[{id: v1(),title: title,isDone: false},...tasks[todolistID]]})
 
-    }
-    const changeTaskStatus = (todolistID: string , taskID: string , isDone: boolean) => {
+    },[dispatch])
+
+    const changeTaskStatus = useCallback((todolistID: string , taskID: string , isDone: boolean) => {
         dispatch(changeTaskStatusAC(todolistID , taskID , isDone))
-        // setTasks({...tasks,[todolistID]:tasks[todolistID].map(el=>el.id===taskID?{...el,isDone:isDone}:el)})
-    }
+    },[dispatch])
 
-    const removeTodoList = (todolistID: string) => {
+    const removeTodoList = useCallback((todolistID: string) => {
         // засунем в стейт список тудулистов, id которых не равны тому, который нужно выкинуть
         dispatch(removeTodoListAC(todolistID))
         // setTodolists(todolists.filter(el => el.id !== todolistID));
@@ -68,44 +62,34 @@ function App() {
         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         dispatch(removeTodoListAC(todolistID))
         //setTasks({...tasks});
-    }
-    const updateTask = (todolistID: string , taskID: string , updateTitle: string) => {
+    },[dispatch])
+
+    const updateTask = useCallback((todolistID: string , taskID: string , updateTitle: string) => {
         dispatch(updateTaskAC(todolistID , taskID , updateTitle))
-        // console.log(updateTitle)
-        // setTasks({...tasks,[todolistID]:tasks[todolistID].map(el=>el.id===taskID?{...el,title:updateTitle}:el)})
-    }
-    const updateTodoListTitle = (todolistID: string , title: string) => {
+    },[dispatch])
+
+    const updateTodoListTitle = useCallback((todolistID: string , title: string) => {
         dispatch(updateTodoListTitleAC(todolistID , title))
-        // setTodolists(todolists.map((el)=>el.id===todolistID?{...el,title:title}:el))
-    }
-    const addNewTask = (title: string) => {
+    },[dispatch])
+
+    const addTodoList = useCallback( (title: string) => {
         let newID = v1()
         dispatch(addNewTodoListAC(title,newID))
-        // tasksDispatch(updateNewTodolistAC(newID))
-        // setTodolists([{id: newID, title: title, filter: "all"},...todolists])
-        //setTasks({...tasks,[newID]:[]})
 
-    }
+    },[dispatch])
 
     return (
         <div >
             <ButtonAppBar/>
             <Container fixed>
                 <Grid container style = {{padding: '20px'}}>
-            <AddTaskForm addTask={addNewTask}/>
+                    <AddItemForm addItem={addTodoList}/>
                 </Grid>
                 <Grid container spacing={3}>
             {todolists.map((el) => {
                 let tasksForTodolist = tasks[el.id];
-
-                if (el.filter === "active") {
-                    tasksForTodolist = tasks[el.id].filter(t => t.isDone === false);
-                }
-                if (el.filter === "completed") {
-                    tasksForTodolist = tasks[el.id].filter(t => t.isDone === true);
-                }
-                return (<Grid item>
-                    <Paper elevation = {6} style={{padding: '10px'}}>
+                return (<Grid key = {el.id} item>
+                    <Paper key = {el.id} elevation = {6} style={{padding: '10px'}}>
                     <ToDoList
                         key={el.id}
                         todolistID={el.id}
@@ -125,8 +109,6 @@ function App() {
                 )
             })}
 
-            {/*<ToDoList title={"What to remember"} tasks={task_2} />*/}
-            {/*<ToDoList title={"What to ask"} tasks={task_3} />*/}
                 </Grid>
             </Container>
         </div>

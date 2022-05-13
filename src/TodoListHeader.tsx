@@ -1,9 +1,9 @@
-import React from 'react';
-import AddTaskForm from "./AddTaskForm";
+import React , {useCallback} from 'react';
 import {FilterValuesType} from "./App";
 import EditableSpan from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import AddItemForm from "./AddItemForm";
 
 type TodoListHeaderPropsType = {
     title:string
@@ -14,15 +14,16 @@ type TodoListHeaderPropsType = {
     removeTodoList:(todoListID:string)=>void
 }
 const TodoListHeader = (props:TodoListHeaderPropsType) => {
-    const updateTodoListTitleHandler = (title:string) => {
+    const updateTodoListTitleHandler = useCallback( (title:string) => {
         props.updateTodoListTitle(props.todolistID,title)
-    }
+    },[props.updateTodoListTitle,props.todolistID])
+
     const removeTodoList = () => {
       props.removeTodoList(props.todolistID)
     }
-    const addTaskHandler = (title:string) => {
+    const addTaskHandler =useCallback( (title:string) => {
         props.addTask(props.todolistID,title)
-    }
+    },[props.addTask,props.todolistID])
     return (
         <>
             <h3>
@@ -37,8 +38,7 @@ const TodoListHeader = (props:TodoListHeaderPropsType) => {
                 <div className='headerFilter'>{props.filter}</div>
             </h3>
 
-            <AddTaskForm
-                addTask = {addTaskHandler}
+            <AddItemForm addItem={addTaskHandler}
             />
         </>
 

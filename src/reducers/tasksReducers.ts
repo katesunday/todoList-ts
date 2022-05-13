@@ -9,20 +9,20 @@ export type TasksStateType = {
 export let todolistID1 = v1();
 export let todolistID2 = v1();
 const initialState:TasksStateType = {
-        [todolistID1]: [
-            {id: v1() , title: "HTML&CSS" , isDone: true} ,
-            {id: v1() , title: "JS" , isDone: true} ,
-            {id: v1() , title: "ReactJS" , isDone: false} ,
-            {id: v1() , title: "Rest API" , isDone: false} ,
-            {id: v1() , title: "GraphQL" , isDone: false} ,
-        ] ,
-        [todolistID2]: [
-            {id: v1() , title: "Milk" , isDone: true} ,
-            {id: v1() , title: "Juice" , isDone: true} ,
-            {id: v1() , title: "blabla" , isDone: false} ,
-            {id: v1() , title: "smth else" , isDone: false} ,
-            {id: v1() , title: "bananas" , isDone: false} ,
-        ]
+        // [todolistID1]: [
+        //     {id: v1() , title: "HTML&CSS" , isDone: true} ,
+        //     {id: v1() , title: "JS" , isDone: true} ,
+        //     {id: v1() , title: "ReactJS" , isDone: false} ,
+        //     {id: v1() , title: "Rest API" , isDone: false} ,
+        //     {id: v1() , title: "GraphQL" , isDone: false} ,
+        // ] ,
+        // [todolistID2]: [
+        //     {id: v1() , title: "Milk" , isDone: true} ,
+        //     {id: v1() , title: "Juice" , isDone: true} ,
+        //     {id: v1() , title: "blabla" , isDone: false} ,
+        //     {id: v1() , title: "smth else" , isDone: false} ,
+        //     {id: v1() , title: "bananas" , isDone: false} ,
+        // ]
     }
 
 export const tasksReducers = (state:TasksStateType = initialState,action:tasksReducersAC): TasksStateType =>{
@@ -39,10 +39,12 @@ export const tasksReducers = (state:TasksStateType = initialState,action:tasksRe
         }
         case "CHANGE-TASK-STATUS":{
             return {...state,[action.payload.todolistID]:
-                    state[action.payload.todolistID].map(el=>el.id===action.payload.taskID?{...el,isDone:action.payload.isDone}:el)}
+                    state[action.payload.todolistID].map(el=>el.id===action.payload.taskID?
+                        {...el,isDone:action.payload.isDone}:el)}
         }
         case "UPDATE-TASK":{
-            return {...state,[action.payload.todolistID]:state[action.payload.todolistID].map(el=>el.id===action.payload.taskID?{...el,title:action.payload.updateTitle}:el)}
+            return {...state,[action.payload.todolistID]:state[action.payload.todolistID].map(el=>el.id===action.payload.taskID?
+                    {...el,title:action.payload.updateTitle}:el)}
         }
         case "ADD-NEW-TODOLIST": {
             return {...state,[action.payload.newID]:[]}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {memo} from 'react';
 import TodoListHeader from "./TodoListHeader";
 import TasksList from "./TasksList";
 import {FilterValuesType} from "./App";
@@ -23,7 +23,16 @@ export type TaskType ={
 
 }
 
-const ToDoList = (props: ToDoListPropsType) => {
+const ToDoList = memo((props: ToDoListPropsType) => {
+
+
+    let tasksForTodolist = props.tasks
+    if (props.filter === "active") {
+        tasksForTodolist = props.tasks.filter(t => t.isDone === false);
+    }
+    if (props.filter === "completed") {
+        tasksForTodolist = props.tasks.filter(t => t.isDone === true);
+    }
   return(
       <div className="App">
 
@@ -48,6 +57,6 @@ const ToDoList = (props: ToDoListPropsType) => {
           </div>
       </div>
   )
-}
+})
 
 export  default ToDoList;
