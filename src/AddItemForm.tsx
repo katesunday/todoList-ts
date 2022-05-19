@@ -1,7 +1,7 @@
 import React , {useState , KeyboardEvent , ChangeEvent , CSSProperties , memo} from 'react';
-import {Button , TextField} from "@material-ui/core";
+import {Button , TextField} from "@mui/material";
 
-type AddItemFormPropsType = {
+export type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 const AddItemForm = memo((props: AddItemFormPropsType) => {

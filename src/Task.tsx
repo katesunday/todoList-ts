@@ -1,10 +1,10 @@
 import React , {ChangeEvent , useCallback} from 'react';
 import {TaskType} from "./ToDoList";
 import EditableSpan from "./EditableSpan";
-import {IconButton} from "@material-ui/core";
-import {Delete} from "@material-ui/icons";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
-type TaskPropType = TaskType & {
+export type TaskPropType = TaskType & {
     removeTask: (todolistID:string,taskID:string)=> void
     changeTaskStatus:(todolistID:string,taskID: string, isDone:boolean) => void
     todolistID:string
@@ -21,7 +21,7 @@ const Task = (props: TaskPropType) => {
     }
     const updateTaskHandler = useCallback((title:string) => {
         props.updateTask(props.todolistID,props.id,title)
-    },[props.updateTask,props.todolistID,props.id])
+    },[props])
     return (
             <li >
                 <input type="checkbox"
@@ -29,7 +29,7 @@ const Task = (props: TaskPropType) => {
                        checked={props.isDone}
                 />
                 <EditableSpan oldTitle = {props.title} nameOfClass = {completedClass}
-                              callBack = {useCallback((title)=>updateTaskHandler(title),[])}/>
+                              callBack = {useCallback((title)=>updateTaskHandler(title),[updateTaskHandler])}/>
                 <IconButton aria-label="delete" onClick={removeTask}>
                     <Delete />
                 </IconButton>

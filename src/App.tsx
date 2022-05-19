@@ -15,10 +15,10 @@ import {
     updateTaskAC ,TasksStateType
 } from "./reducers/tasksReducers";
 import ButtonAppBar from "./components/ButtonAppBar";
-import {Container , Grid , Paper} from "@material-ui/core";
 import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType} from "./store/store";
 import AddItemForm from "./AddItemForm";
+import {Container , Grid , Paper} from "@mui/material";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistsType = {
@@ -62,7 +62,7 @@ function App() {
         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         dispatch(removeTodoListAC(todolistID))
         //setTasks({...tasks});
-    },[dispatch])
+    },[dispatch,tasks])
 
     const updateTask = useCallback((todolistID: string , taskID: string , updateTitle: string) => {
         dispatch(updateTaskAC(todolistID , taskID , updateTitle))
@@ -79,35 +79,36 @@ function App() {
     },[dispatch])
 
     return (
-        <div >
+        <div>
             <ButtonAppBar/>
             <Container fixed>
-                <Grid container style = {{padding: '20px'}}>
+                <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
                 <Grid container spacing={3}>
-            {todolists.map((el) => {
-                let tasksForTodolist = tasks[el.id];
-                return (<Grid key = {el.id} item>
-                    <Paper key = {el.id} elevation = {6} style={{padding: '10px'}}>
-                    <ToDoList
-                        key={el.id}
-                        todolistID={el.id}
-                        title={el.title}
-                        tasks={tasksForTodolist}
-                        removeTask={removeTask}
-                        changeFilter={changeFilter}
-                        addTask={addTask}
-                        filter={el.filter}
-                        changeTaskStatus={changeTaskStatus}
-                        updateTask={updateTask}
-                        updateTodoListTitle={updateTodoListTitle}
-                        removeTodoList={removeTodoList}
-                    />
-                    </Paper>
-                    </Grid>
-                )
-            })}
+                    {todolists.map((el) => {
+                        let tasksForTodolist = tasks[el.id];
+                        return (
+                            <Grid key={el.id} item>
+                                <Paper key={el.id} elevation={6} style={{padding: '10px'}}>
+                                    <ToDoList
+                                        key={el.id}
+                                        todolistID={el.id}
+                                        title={el.title}
+                                        tasks={tasksForTodolist}
+                                        removeTask={removeTask}
+                                        changeFilter={changeFilter}
+                                        addTask={addTask}
+                                        filter={el.filter}
+                                        changeTaskStatus={changeTaskStatus}
+                                        updateTask={updateTask}
+                                        updateTodoListTitle={updateTodoListTitle}
+                                        removeTodoList={removeTodoList}
+                                    />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
 
                 </Grid>
             </Container>

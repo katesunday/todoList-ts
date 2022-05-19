@@ -1,9 +1,9 @@
 import React , {useCallback} from 'react';
 import {FilterValuesType} from "./App";
 import EditableSpan from "./EditableSpan";
-import {IconButton} from "@material-ui/core";
-import {Delete} from "@material-ui/icons";
 import AddItemForm from "./AddItemForm";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 type TodoListHeaderPropsType = {
     title:string
@@ -33,7 +33,7 @@ const TodoListHeader = (props:TodoListHeaderPropsType) => {
 
                 {/*<button onClick={removeTodoList}>remove all todolist</button>*/}
                 <IconButton aria-label="delete" onClick={removeTodoList}>
-                    <Delete />
+                    <Delete/>
                 </IconButton>
                 <div className='headerFilter'>{props.filter}</div>
             </h3>

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {AppBar , Box , Button , IconButton , Toolbar , Typography} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
+import {AppBar , Box , Button , IconButton  , Toolbar , Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
+
 
 export default function ButtonAppBar() {
     return (
@@ -14,7 +15,7 @@ export default function ButtonAppBar() {
                         aria-label="menu"
                         sx={{ mr: 2 }}
                     >
-                        <Menu />
+                        <Menu/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News

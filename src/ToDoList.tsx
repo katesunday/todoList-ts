@@ -24,8 +24,7 @@ export type TaskType ={
 }
 
 const ToDoList = memo((props: ToDoListPropsType) => {
-
-
+    console.log(props.tasks,props.filter)
     let tasksForTodolist = props.tasks
     if (props.filter === "active") {
         tasksForTodolist = props.tasks.filter(t => t.isDone === false);

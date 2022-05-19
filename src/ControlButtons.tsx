@@ -1,6 +1,7 @@
 import React from 'react';
 import {FilterValuesType} from "./App";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
+
 
 type ControlButtonsType = {
     filter:FilterValuesType

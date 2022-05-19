@@ -1,5 +1,4 @@
 import {FilterValuesType , TodolistsType} from "../App";
-import {todolistID1 , todolistID2} from "./tasksReducers";
 
 const initialState: Array<TodolistsType> = [
     // {id: todolistID1 , title: 'What to learn' , filter: 'all'} ,
@@ -26,8 +25,8 @@ export const todolistsReducer = (state: Array<TodolistsType> = initialState , ac
     }
 }
 
-type todolistsReducerACType = filterReducerAC | updateTodoListTitleACType | addNewTodoListACType | removeTodoListACType
-type filterReducerAC = ReturnType<typeof filterReducerAC>
+type todolistsReducerACType = filterReducerACType | updateTodoListTitleACType | addNewTodoListACType | removeTodoListACType
+type filterReducerACType = ReturnType<typeof filterReducerAC>
 export const filterReducerAC = (todolistID: string , value: FilterValuesType) => {
     return {
         type: 'CHANGE-FILTER' ,

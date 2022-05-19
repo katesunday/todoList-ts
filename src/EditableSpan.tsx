@@ -1,15 +1,13 @@
 import React , {ChangeEvent , memo , useState} from 'react';
 import './App.css';
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 
-type EditableSpanPropsType = {
+export type EditableSpanPropsType = {
     oldTitle:string
     nameOfClass: string
     callBack : (updateTitle:string) => void
 }
 const EditableSpan = memo((props:EditableSpanPropsType) => {
-    console.log('editableSpan here')
-
     const [edit,setEdit] = useState(false)
     const [newTitle,setNewTitle] = useState(props.oldTitle)
     const doubleClickHandler = () => {
