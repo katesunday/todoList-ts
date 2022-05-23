@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {memo} from 'react';
 import {FilterValuesType} from "./App";
 import {Button} from "@mui/material";
 
@@ -8,7 +8,7 @@ type ControlButtonsType = {
     changeFilter: (todolistID:string,filter:FilterValuesType)  => void
     todolistID:string
 }
-const ControlButtons = (props:ControlButtonsType) => {
+const ControlButtons = memo((props:ControlButtonsType) => {
     const onCLickSetFilter = (todolistID:string,filter:FilterValuesType) => () => {
         props.changeFilter(todolistID,filter)
     }
@@ -22,6 +22,6 @@ const ControlButtons = (props:ControlButtonsType) => {
             {/*<button className={props.filter === 'completed'? 'activeBtn':''} onClick={onCLickSetFilter(props.todolistID,'completed')}>Completed</button>*/}
         </div>
     );
-};
+});
 
 export default ControlButtons;

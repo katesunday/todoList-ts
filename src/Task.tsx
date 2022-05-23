@@ -1,27 +1,34 @@
-import React , {ChangeEvent , useCallback} from 'react';
+import React , {ChangeEvent , memo , useCallback} from 'react';
 import {TaskType} from "./ToDoList";
 import EditableSpan from "./EditableSpan";
 import {IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {changeTaskStatusAC , removeTasksAC , updateTaskAC} from "./reducers/tasksReducers";
+import {useDispatch} from "react-redux";
 
 export type TaskPropType = TaskType & {
-    removeTask: (todolistID:string,taskID:string)=> void
-    changeTaskStatus:(todolistID:string,taskID: string, isDone:boolean) => void
     todolistID:string
-    updateTask : (todolistID:string,taskID:string,updateTitle:string) => void
+    //removeTask: (todolistID:string,taskID:string)=> void
+    //changeTaskStatus:(todolistID:string,taskID: string, isDone:boolean) => void
+    //updateTask : (todolistID:string,taskID:string,updateTitle:string) => void
 }
 
-const Task = (props: TaskPropType) => {
+const Task = memo((props: TaskPropType) => {
+    const dispatch = useDispatch()
     const completedClass = `task ${props.isDone ? 'completedTask' :''}`;
-    const removeTask = () => {
-        props.removeTask(props.todolistID,props.id)
-    }
+
+    const removeTask = useCallback(() => {
+        dispatch(removeTasksAC(props.todolistID , props.id))
+    },[dispatch,props.todolistID,props.id])
+
     const changeTaskStatus = (e:ChangeEvent<HTMLInputElement>) => {
-        props.changeTaskStatus(props.todolistID,props.id,e.currentTarget.checked)
+        dispatch(changeTaskStatusAC(props.todolistID,props.id, e.currentTarget.checked))
+       // props.changeTaskStatus(props.todolistID,props.id,e.currentTarget.checked)
     }
     const updateTaskHandler = useCallback((title:string) => {
-        props.updateTask(props.todolistID,props.id,title)
-    },[props])
+        dispatch(updateTaskAC(props.todolistID,props.id,title))
+       //props.updateTask(props.todolistID,props.id,title)
+    },[props,dispatch])
     return (
             <li >
                 <input type="checkbox"
@@ -36,6 +43,6 @@ const Task = (props: TaskPropType) => {
             </li>
 
     );
-};
+});
 
 export default Task;
