@@ -3,7 +3,6 @@ import Task from "../Task";
 import {ComponentMeta , ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
-import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType} from "../store/store";
 import {TaskType} from "../ToDoList";
 
@@ -12,6 +11,7 @@ export default {
     title: 'Todolist/Task' ,
     component: Task ,
     args: {
+        todolistID:'todolistID1',
         changeTaskStatus: action('Status changed inside task') ,
         updateTask: action('Title changed inside task') ,
         removeTask: action('Remove button inside task clicked') ,

@@ -41,7 +41,6 @@ const TodoListHeader = memo((props: TodoListHeaderPropsType) => {
                               callBack={updateTodoListTitleHandler}
                 />
 
-                {/*<button onClick={removeTodoList}>remove all todolist</button>*/}
                 <IconButton aria-label="delete" onClick={removeTodoList}>
                     <Delete/>
                 </IconButton>
