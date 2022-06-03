@@ -3,8 +3,7 @@ import Task from "../Task";
 import {ComponentMeta , ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
-import {AppRootStateType} from "../store/store";
-import {TaskType} from "../ToDoList";
+import {TaskStatuses} from "../api/todolist-api";
 
 
 export default {
@@ -34,7 +33,7 @@ export const TaskIsDoneExample = Template.bind({})
 TaskIsDoneExample.args = {
     id: '1' ,
     title: 'JS' ,
-    isDone: true ,
+    status: TaskStatuses.Completed ,
     todolistID: 'todolistID1' ,
 
 }
@@ -42,7 +41,7 @@ export const TaskIsNotDoneExample = Template.bind({})
 TaskIsNotDoneExample.args = {
     id: '2' ,
     title: 'JS' ,
-    isDone: false ,
+    status: TaskStatuses.New ,
     todolistID: 'todolistID1' ,
 
 }
@@ -51,7 +50,7 @@ export const TaskInteractiveExample = Template.bind({})
 TaskInteractiveExample.args = {
     id: '2' ,
     title: 'I should be interactive' ,
-    isDone: false ,
+    status: TaskStatuses.New ,
     todolistID: 'todolistID1' ,
 
 }

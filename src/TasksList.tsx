@@ -1,32 +1,28 @@
 import React , {memo , useCallback} from 'react';
 import Task from "./Task";
-import {TaskType} from "./ToDoList";
 import ControlButtons from "./ControlButtons";
-import {FilterValuesType} from "./App";
 import {useDispatch} from "react-redux";
-import {filterReducerAC} from "./reducers/todolistsReducer";
+import {filterReducerAC , FilterValuesType} from "./reducers/todolistsReducer";
+import {TaskStatuses , TaskType} from "./api/todolist-api";
 
 type TasksListPropsType = {
     tasks: Array<TaskType>
     filter: FilterValuesType
     todolistID:string
-    //removeTask: (todolistID:string,taskID:string)=> void
-    //changeFilter: (todolistID:string,filter:FilterValuesType)  => void
-    //changeTaskStatus:(todolistID:string,taskID: string, isDone:boolean) => void
-    //updateTask:(todolistID:string,taskID:string,updateTitle:string) => void
 }
 
 const TasksList = memo((props: TasksListPropsType) => {
     const dispatch = useDispatch()
+
     const changeFilter = useCallback((todolistID: string , value: FilterValuesType) => {
         dispatch(filterReducerAC(todolistID , value))
     },[dispatch])
 
     let tasksForTodolist = props.tasks
     if (props.filter === "active") {
-        tasksForTodolist = props.tasks.filter(t => t.isDone === false);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New);
     } else if (props.filter === "completed") {
-        tasksForTodolist = props.tasks.filter(t => t.isDone === true);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed);
     }
 
    const tasksComponentsList = tasksForTodolist.map(task => {
@@ -35,9 +31,6 @@ const TasksList = memo((props: TasksListPropsType) => {
             key={task.id}
             {...task}  //пройтись мапом по всем компонентам с помощью спреад
             todolistID = {props.todolistID}
-            // removeTask={removeTask}
-            // changeTaskStatus={changeTaskStatus}
-            // updateTask = {updateTask}
         />
        )
    })

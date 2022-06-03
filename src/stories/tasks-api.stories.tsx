@@ -1,6 +1,6 @@
 import React , {useEffect , useState} from "react";
 import {
-    PropertiesForUpdateTaskType , TaskResponseItemsType ,
+    PropertiesForUpdateTaskType , TaskType ,
     todolistAPI ,
 } from "../api/todolist-api";
 
@@ -22,7 +22,7 @@ export const GetTasks = () => {
         <li>
             <p> totalCount: {JSON.stringify(state.totalCount)}</p>
             <p> error: {JSON.stringify(state.error)}</p>
-            {state.items.map((el: TaskResponseItemsType) => {
+            {state.items.map((el: TaskType) => {
                 return <ol>
                     <li>
                         <p> id: {el.id}</p>
@@ -65,7 +65,6 @@ export const UpdateTask = () => {
         const properties: PropertiesForUpdateTaskType = {
             title: 'new Title' ,
             description: '' ,
-            completed: false ,
             status: 0 ,
             priority: 0 ,
             startDate: new Date().toDateString() ,
