@@ -3,6 +3,7 @@ import {Button , TextField} from "@mui/material";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?:string
 }
 const AddItemForm = memo((props: AddItemFormPropsType) => {
     const [title , setTitle] = useState<string>('')
@@ -10,6 +11,7 @@ const AddItemForm = memo((props: AddItemFormPropsType) => {
 
     const addItem = () => {
         if (title.trim() !== "") {
+
             props.addItem(title);
             setTitle("");
         } else {
@@ -55,6 +57,7 @@ const AddItemForm = memo((props: AddItemFormPropsType) => {
                         minWidth: '40px' ,
                         minHeight: '40px' ,
                     }}
+                    disabled={props.disabled==='loading'}
             >+</Button>
             {/*<button onClick={onClickAddTask}>+</button>*/}
             {errorMessage}

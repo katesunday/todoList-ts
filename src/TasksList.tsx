@@ -1,9 +1,12 @@
 import React , {memo , useCallback} from 'react';
 import Task from "./Task";
 import ControlButtons from "./ControlButtons";
-import {useDispatch} from "react-redux";
+import {useDispatch , useSelector} from "react-redux";
 import {filterReducerAC , FilterValuesType} from "./reducers/todolistsReducer";
 import {TaskStatuses , TaskType} from "./api/todolist-api";
+import {LinearProgress} from "@mui/material";
+import {AppRootStateType} from "./store/store";
+import {RequestStatusType} from "./reducers/appReducer";
 
 type TasksListPropsType = {
     tasks: Array<TaskType>
@@ -13,6 +16,7 @@ type TasksListPropsType = {
 
 const TasksList = memo((props: TasksListPropsType) => {
     const dispatch = useDispatch()
+
 
     const changeFilter = useCallback((todolistID: string , value: FilterValuesType) => {
         dispatch(filterReducerAC(todolistID , value))
@@ -27,11 +31,13 @@ const TasksList = memo((props: TasksListPropsType) => {
 
    const tasksComponentsList = tasksForTodolist.map(task => {
        return(
-        <Task
-            key={task.id}
-            {...task}  //пройтись мапом по всем компонентам с помощью спреад
-            todolistID = {props.todolistID}
-        />
+               <Task
+                   key={task.id}
+                   {...task}  //пройтись мапом по всем компонентам с помощью спреад
+                   todolistID = {props.todolistID}
+
+               />
+
        )
    })
     const emptyMessage = <span style={{fontSize:'14px'}}>Task list is empty. Change filter or add task.</span>

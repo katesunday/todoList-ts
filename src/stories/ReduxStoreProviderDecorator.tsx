@@ -6,17 +6,19 @@ import {tasksReducers} from "../reducers/tasksReducers";
 import { todolistsReducer} from "../reducers/todolistsReducer";
 import {AppRootStateType} from "../store/store";
 import {TaskPriorities , TaskStatuses} from "../api/todolist-api";
+import {appReducer} from "../reducers/appReducer";
 
 
 const rootReducer = combineReducers({
     tasks: tasksReducers ,
-    todolists: todolistsReducer
+    todolists: todolistsReducer,
+    app:appReducer
 })
 
 const initialGlobalState = {
     todolists: [
-        {id: "todolistId1" , title: "What to learn" , filter: "all" , addedDate: '' , order: 0 ,} ,
-        {id: "todolistId2" , title: "What to buy" , filter: "all" , addedDate: '' , order: 0 ,}
+        {id: "todolistId1" , title: "What to learn" , filter: "all" , addedDate: '' , order: 0 ,entityStatus:'succeeded'} ,
+        {id: "todolistId2" , title: "What to buy" , filter: "all" , addedDate: '' , order: 0 ,entityStatus:'succeeded'}
     ] ,
     tasks: {
         ["todolistId1"]: [
@@ -69,7 +71,8 @@ const initialGlobalState = {
                 addedDate: ''
             }
         ]
-    }
+    },
+    app:{status: 'loading', error: null}
 };
 
 export const storyBookStore = legacy_createStore(rootReducer , initialGlobalState as AppRootStateType);

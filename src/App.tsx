@@ -7,7 +7,9 @@ import ButtonAppBar from "./components/ButtonAppBar";
 import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType} from "./store/store";
 import AddItemForm from "./AddItemForm";
-import {Container , Grid , Paper} from "@mui/material";
+import {Container , Grid , LinearProgress , Paper} from "@mui/material";
+import {ErrorStateType  , RequestStatusType} from "./reducers/appReducer";
+import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackbar";
 
 
 function App() {
@@ -15,6 +17,7 @@ function App() {
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootStateType , Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType , TasksStateType>(state => state.tasks)
+    const status = useSelector<AppRootStateType,RequestStatusType>(state => state.app.status)
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
@@ -26,11 +29,15 @@ function App() {
 
     return (
         <div>
+            <ErrorSnackbar/>
             <ButtonAppBar/>
+            {status==='loading' && <LinearProgress />}
             <Container fixed>
+
                 <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodoList}/>
+                    <AddItemForm addItem={addTodoList} />
                 </Grid>
+
                 <Grid container spacing={3}>
                     {todolists.map((el) => {
                         let tasksForTodolist = tasks[el.id];
@@ -43,6 +50,7 @@ function App() {
                                         title={el.title}
                                         tasks={tasksForTodolist}
                                         filter={el.filter}
+                                        entityStatus = {el.entityStatus}
                                     />
                                 </Paper>
                             </Grid>
@@ -51,6 +59,7 @@ function App() {
 
                 </Grid>
             </Container>
+
         </div>
     );
 }

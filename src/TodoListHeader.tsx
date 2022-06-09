@@ -6,12 +6,14 @@ import {Delete} from "@mui/icons-material";
 import {changeTodolistTitleTC , FilterValuesType } from "./reducers/todolistsReducer";
 import {useDispatch} from "react-redux";
 import { addTaskTC} from "./reducers/tasksReducers";
+import {RequestStatusType} from "./reducers/appReducer";
 
 type TodoListHeaderPropsType = {
     title: string
     filter: FilterValuesType
     todolistID: string
     removeTodoList: (todoListID: string) => void
+    entityStatus: RequestStatusType
 }
 const TodoListHeader = memo((props: TodoListHeaderPropsType) => {
     const dispatch = useDispatch()
@@ -35,13 +37,14 @@ const TodoListHeader = memo((props: TodoListHeaderPropsType) => {
                               callBack={updateTodoListTitleHandler}
                 />
 
-                <IconButton aria-label="delete" onClick={removeTodoList}>
+                <IconButton aria-label="delete" onClick={removeTodoList}
+                            disabled={props.entityStatus ==='loading'}>
                     <Delete/>
                 </IconButton>
                 <div className='headerFilter'>{props.filter}</div>
             </h3>
 
-            <AddItemForm addItem={addTaskHandler}
+            <AddItemForm addItem={addTaskHandler} disabled = {props.entityStatus}
             />
         </>
 

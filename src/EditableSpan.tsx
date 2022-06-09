@@ -1,6 +1,9 @@
 import React , {ChangeEvent , memo , useState} from 'react';
 import './App.css';
 import {TextField} from "@mui/material";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./store/store";
+import {RequestStatusType} from "./reducers/appReducer";
 
 export type EditableSpanPropsType = {
     oldTitle:string
@@ -20,6 +23,8 @@ const EditableSpan = memo((props:EditableSpanPropsType) => {
         props.callBack(newTitle)
         setEdit(false)
     }
+
+    const status = useSelector<AppRootStateType,RequestStatusType>(state => state.app.status)
     return (
         edit
             // ? <input value={newTitle} onChange={onChangeHandler} autoFocus onBlur={onBlurHandler}/>
@@ -28,6 +33,7 @@ const EditableSpan = memo((props:EditableSpanPropsType) => {
                 value={newTitle} onChange={onChangeHandler} autoFocus
                 onBlur={onBlurHandler}
                 size={"small"}
+                disabled={status==='loading'}
             />
         :<span onClick={doubleClickHandler} className={props.nameOfClass}>{props.oldTitle}</span>
     );
