@@ -129,7 +129,7 @@ export const setTasksAC = (tasks: TaskType[] , todolistID: string) => {
 }
 
 export const fetchTasksTC = (todolistID: string) => {
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch<tasksReducersACType>) => {
         dispatch(setAppStatusAC('loading'))
         todolistAPI.getTasks(todolistID)
             .then((res) => {

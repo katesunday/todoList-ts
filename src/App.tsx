@@ -5,10 +5,10 @@ import { addTodolistTC , fetchTodolistsTC , TodolistDomainType} from "./reducers
 import {TasksStateType} from "./reducers/tasksReducers";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {useDispatch , useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
+import {AppRootStateType , useAppSelector} from "./store/store";
 import AddItemForm from "./AddItemForm";
 import {Container , Grid , LinearProgress , Paper} from "@mui/material";
-import {ErrorStateType  , RequestStatusType} from "./reducers/appReducer";
+import {  RequestStatusType} from "./reducers/appReducer";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackbar";
 
 
@@ -17,7 +17,7 @@ function App() {
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootStateType , Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType , TasksStateType>(state => state.tasks)
-    const status = useSelector<AppRootStateType,RequestStatusType>(state => state.app.status)
+    const status = useAppSelector((state) => state.app.status)
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
@@ -31,6 +31,7 @@ function App() {
         <div>
             <ErrorSnackbar/>
             <ButtonAppBar/>
+
             {status==='loading' && <LinearProgress />}
             <Container fixed>
 
