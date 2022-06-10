@@ -1,22 +1,22 @@
 import React , {memo , useCallback} from 'react';
 import Task from "./Task";
 import ControlButtons from "./ControlButtons";
-import {useDispatch , useSelector} from "react-redux";
+import {useDispatch } from "react-redux";
 import {filterReducerAC , FilterValuesType} from "./reducers/todolistsReducer";
 import {TaskStatuses , TaskType} from "./api/todolist-api";
-import {LinearProgress} from "@mui/material";
-import {AppRootStateType} from "./store/store";
-import {RequestStatusType} from "./reducers/appReducer";
+import {TaskDomainType} from "./reducers/tasksReducers";
+
 
 type TasksListPropsType = {
-    tasks: Array<TaskType>
+    tasks: TaskDomainType[]
     filter: FilterValuesType
     todolistID:string
+    //entityStatus: RequestStatusType
 }
 
 const TasksList = memo((props: TasksListPropsType) => {
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch()
 
     const changeFilter = useCallback((todolistID: string , value: FilterValuesType) => {
         dispatch(filterReducerAC(todolistID , value))

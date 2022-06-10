@@ -1,18 +1,16 @@
 import React , {memo , useCallback , useEffect} from 'react';
 import TodoListHeader from "./TodoListHeader";
 import TasksList from "./TasksList";
-import {useDispatch , useSelector} from "react-redux";
+import {useDispatch } from "react-redux";
 import {FilterValuesType  , removeTodolistTC} from "./reducers/todolistsReducer";
-import {TaskType} from "./api/todolist-api";
-import {fetchTasksTC} from "./reducers/tasksReducers";
-import {AppRootStateType} from "./store/store";
+import {fetchTasksTC , TaskDomainType} from "./reducers/tasksReducers";
 import {RequestStatusType} from "./reducers/appReducer";
 import {LinearProgress} from "@mui/material";
 
 type ToDoListPropsType = {
     todolistID: string
     title: string
-    tasks: Array<TaskType>
+    tasks: TaskDomainType[]
     filter: FilterValuesType
     entityStatus:RequestStatusType
 }
@@ -20,7 +18,6 @@ type ToDoListPropsType = {
 
 const ToDoList = memo((props: ToDoListPropsType) => {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType,RequestStatusType>(state => state.app.status)
 
     useEffect(()=>{
         dispatch(fetchTasksTC(props.todolistID))
@@ -46,8 +43,9 @@ const ToDoList = memo((props: ToDoListPropsType) => {
                     tasks={props.tasks}
                     filter={props.filter}
                     todolistID={props.todolistID}
+                    //entityStatus = {props.entityStatus}
                 />
-                {status==='loading' && <LinearProgress />}
+                {props.entityStatus==='loading' && <LinearProgress />}
             </div>
         </div>
     )

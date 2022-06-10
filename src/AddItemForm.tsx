@@ -57,7 +57,7 @@ const AddItemForm = memo((props: AddItemFormPropsType) => {
                         minWidth: '40px' ,
                         minHeight: '40px' ,
                     }}
-                    disabled={props.disabled==='loading'}
+                    disabled={props.disabled ==='loading'}
             >+</Button>
             {/*<button onClick={onClickAddTask}>+</button>*/}
             {errorMessage}

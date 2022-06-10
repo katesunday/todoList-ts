@@ -6,10 +6,12 @@ import {ActionsAppType , setAppErrorAC , setAppStatusAC} from "../reducers/appRe
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
     if (data.messages.length) {
         dispatch(setAppErrorAC(data.messages[0]))
-    } else {
+    }
+    else {
         dispatch(setAppErrorAC('Some error occurred'))
     }
     dispatch(setAppStatusAC('failed'))
+
 }
 
 export const handleServerNetworkError = (error: {message: string}, dispatch: ErrorUtilsDispatchType) => {

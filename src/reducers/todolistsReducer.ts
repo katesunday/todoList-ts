@@ -31,7 +31,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
                 filter: 'all' ,
                 addedDate: '' ,
                 order: 0 ,
-                entityStatus: 'succeeded'
+                entityStatus: 'idle'
             }
             return [todolist , ...state]
         }
@@ -49,7 +49,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             // добавить фильтр в каждый тудулист, так как это только для UI
             return action.payload.todolists.map((el) => (
                 {
-                    ...el , filter: 'all' , entityStatus: 'succeeded'
+                    ...el , filter: 'all' , entityStatus: 'idle'
                 }))
         }
         case "CHANGE-TODOLIST-ENTITY-STATUS": {
@@ -135,7 +135,7 @@ export const addTodolistTC = (title: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(addNewTodoListAC(title,res.data.data.item.id))
-                    dispatch(setAppStatusAC('loading'))
+                    dispatch(setAppStatusAC('succeeded'))
                 } else {
                     handleServerAppError(res.data , dispatch)
                 }

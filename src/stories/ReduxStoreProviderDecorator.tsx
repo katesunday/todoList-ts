@@ -32,7 +32,8 @@ const initialGlobalState = {
                 priority: TaskPriorities.Low ,
                 startDate: '' ,
                 deadline: '' ,
-                addedDate: ''
+                addedDate: '',
+                taskEntityStatus: 'idle'
             } ,
             {
                 id: v1() , title: "JS" , status: TaskStatuses.New ,
@@ -42,7 +43,8 @@ const initialGlobalState = {
                 priority: TaskPriorities.Low ,
                 startDate: '' ,
                 deadline: '' ,
-                addedDate: ''
+                addedDate: '',
+                taskEntityStatus: 'idle'
             }
         ] ,
         ["todolistId2"]: [
@@ -56,7 +58,8 @@ const initialGlobalState = {
                 priority: TaskPriorities.Low ,
                 startDate: '' ,
                 deadline: '' ,
-                addedDate: ''
+                addedDate: '',
+                taskEntityStatus: 'idle'
             } ,
             {
                 id: v1() ,
@@ -68,7 +71,8 @@ const initialGlobalState = {
                 priority: TaskPriorities.Low ,
                 startDate: '' ,
                 deadline: '' ,
-                addedDate: ''
+                addedDate: '',
+                taskEntityStatus: 'idle'
             }
         ]
     },

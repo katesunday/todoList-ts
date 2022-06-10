@@ -1,14 +1,17 @@
 import React , {useCallback , useEffect} from 'react';
 import './App.css';
 import ToDoList from "./ToDoList";
-import { addTodolistTC , fetchTodolistsTC , TodolistDomainType} from "./reducers/todolistsReducer";
+import {
+    addTodolistTC ,
+    fetchTodolistsTC ,
+    TodolistDomainType
+} from "./reducers/todolistsReducer";
 import {TasksStateType} from "./reducers/tasksReducers";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType , useAppSelector} from "./store/store";
 import AddItemForm from "./AddItemForm";
 import {Container , Grid , LinearProgress , Paper} from "@mui/material";
-import {  RequestStatusType} from "./reducers/appReducer";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackbar";
 
 
@@ -36,7 +39,7 @@ function App() {
             <Container fixed>
 
                 <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodoList} />
+                    <AddItemForm addItem={addTodoList}  disabled={status} />
                 </Grid>
 
                 <Grid container spacing={3}>
