@@ -14,7 +14,9 @@ const initialState = {
 
 export type InitialStateType = typeof initialState
 
-export type ActionsAppType = ReturnType<typeof setAppStatusAC> | ReturnType<typeof setAppErrorAC> |
+export type ActionsAppType =
+    ReturnType<typeof setAppStatusAC> |
+    ReturnType<typeof setAppErrorAC> |
     ReturnType<typeof setIsInitializedAC>
 
 export const appReducer = (state: InitialStateType = initialState, action: ActionsAppType): InitialStateType => {
@@ -35,18 +37,18 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
         if (res.data.resultCode === 0) {
-            dispatch(setIsInitializedAC(true))
             dispatch(setIsLoggedInAC(true));
         } else {
             handleServerAppError(res.data , dispatch)
             dispatch(setAppStatusAC('failed'))
-            dispatch(setIsInitializedAC(true))
         }
     })
         .catch((error)=>{
-            dispatch(setIsInitializedAC(true))
             handleServerNetworkError(error,dispatch)
             dispatch(setAppStatusAC('failed'))
+        })
+        .finally(()=>{
+            dispatch(setIsInitializedAC(true))
         })
 }
 

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios , {AxiosResponse} from 'axios'
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/' ,
@@ -64,7 +64,17 @@ export type PropertiesForUpdateTaskType = {
     startDate: string
     deadline: string
 }
-
+export type LoginParamsType = {
+    email:string
+    password:string
+    rememberMe?:boolean
+    captcha?:string
+}
+export type AuthMeType = {
+    id:number
+    email:string
+    login:string
+}
 
 export const todolistAPI = {
     getTodolists() {
@@ -96,14 +106,15 @@ export const todolistAPI = {
 
 }
 
+
 export const authAPI = {
-    login(email: string , password: string , rememberMe: boolean , captcha?: boolean) {
-        return instance.post(`/auth/login` , {email , password , rememberMe , captcha})
+    login(data:LoginParamsType) {
+        return instance.post<LoginParamsType,AxiosResponse<ResponseType>>(`/auth/login` , data)
     } ,
     me() {
-        return instance.get(`auth/me`)
+        return instance.get<ResponseType<AuthMeType>>(`auth/me`)
     },
     logout(){
-        return instance.delete(`auth/login`)
+        return instance.delete<ResponseType>(`auth/login`)
     }
 }

@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux'
 import {ActionsAppType , setAppStatusAC} from "./appReducer";
-import {authAPI , todolistAPI} from "../api/todolist-api";
+import {authAPI , LoginParamsType , todolistAPI} from "../api/todolist-api";
 import {handleServerAppError , handleServerNetworkError} from "../utils/error-utils";
 
 const initialState = {
@@ -26,10 +26,10 @@ export const setIsLoggedInAC = (value: boolean) =>
         {type: 'login/SET-IS-LOGGED-IN' , value} as const)
 
 // thunks
-export const loginTC = (email: string , password: string , rememberMe: boolean , captcha?: boolean) =>
+export const loginTC = (data:LoginParamsType) =>
     (dispatch: Dispatch<ActionsAuthType>) => {
         dispatch(setAppStatusAC('loading'))
-        authAPI.login(email , password , rememberMe , captcha)
+        authAPI.login(data)
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(setIsLoggedInAC(true))
@@ -43,6 +43,7 @@ export const loginTC = (email: string , password: string , rememberMe: boolean ,
                 handleServerNetworkError(error,dispatch)
                 dispatch(setAppStatusAC('failed'))
             })
+
     }
 
 export const logoutTC = () => (dispatch: Dispatch<ActionsAuthType>) => {
