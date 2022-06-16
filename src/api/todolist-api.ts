@@ -25,27 +25,28 @@ export type ResponseType<D = {}> = {
 export type GetTasksResponseType = {
     error: null | string
     totalCount: number
-    items:  TaskType[]
+    items: TaskType[]
 }
 
-export enum TaskStatuses{
-    New = 0,
-    InProgress,
-    Completed,
+export enum TaskStatuses {
+    New = 0 ,
+    InProgress ,
+    Completed ,
     Draft
 }
-export enum TaskPriorities{
+
+export enum TaskPriorities {
     Low ,
-    Middle,
-    Hi,
-    Urgently,
+    Middle ,
+    Hi ,
+    Urgently ,
     Later
 }
 
 export type TaskType = {
     id: string,
     title: string,
-    description:  string | null,
+    description: string | null,
     todoListId: string,
     order: number,
     status: TaskStatuses,
@@ -70,7 +71,7 @@ export const todolistAPI = {
         return instance.get<TodolistType[]>(`todo-lists/`)
     } ,
     createTodolist(title: string) {
-        return instance.post<ResponseType< TodolistType >>(`todo-lists/` , {title})
+        return instance.post<ResponseType<TodolistType>>(`todo-lists/` , {title})
     } ,
     deleteTodolist(id: string) {
         return instance.delete<ResponseType>(`todo-lists/` + id)
@@ -85,7 +86,7 @@ export const todolistAPI = {
     createTask(todolistId: string , title: string) {
         return instance.post<ResponseType<TaskType>>(`todo-lists/` + todolistId + `/tasks` , {title})
     } ,
-    updateTask(todolistId: string , taskId: string  , properties: PropertiesForUpdateTaskType) {
+    updateTask(todolistId: string , taskId: string , properties: PropertiesForUpdateTaskType) {
         return instance.put<ResponseType<TaskType>>(`todo-lists/` + todolistId + `/tasks/` + taskId , properties)
     } ,
     deleteTask(todolistId: string , taskId: string) {
@@ -93,4 +94,16 @@ export const todolistAPI = {
     }
 
 
+}
+
+export const authAPI = {
+    login(email: string , password: string , rememberMe: boolean , captcha?: boolean) {
+        return instance.post(`/auth/login` , {email , password , rememberMe , captcha})
+    } ,
+    me() {
+        return instance.get(`auth/me`)
+    },
+    logout(){
+        return instance.delete(`auth/login`)
+    }
 }

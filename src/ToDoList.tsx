@@ -20,6 +20,7 @@ const ToDoList = memo((props: ToDoListPropsType) => {
     const dispatch = useDispatch()
 
     useEffect(()=>{
+
         dispatch(fetchTasksTC(props.todolistID))
     },[])
 

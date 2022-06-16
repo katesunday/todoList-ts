@@ -7,12 +7,14 @@ import { todolistsReducer} from "../reducers/todolistsReducer";
 import {AppRootStateType} from "../store/store";
 import {TaskPriorities , TaskStatuses} from "../api/todolist-api";
 import {appReducer} from "../reducers/appReducer";
+import {authReducer} from "../reducers/auth-reducer";
 
 
 const rootReducer = combineReducers({
     tasks: tasksReducers ,
     todolists: todolistsReducer,
-    app:appReducer
+    app:appReducer,
+    auth:authReducer
 })
 
 const initialGlobalState = {
@@ -76,7 +78,8 @@ const initialGlobalState = {
             }
         ]
     },
-    app:{status: 'loading', error: null}
+    app:{status: 'loading', error: null, isInitialized:false},
+    auth: { isLoggedIn: false}
 };
 
 export const storyBookStore = legacy_createStore(rootReducer , initialGlobalState as AppRootStateType);

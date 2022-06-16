@@ -122,7 +122,7 @@ export const fetchTodolistsTC = () => {
                 }
             })
             .catch((error) => {
-                handleServerNetworkError(error.message , dispatch)
+                handleServerNetworkError(error , dispatch)
 
             })
     }
@@ -141,8 +141,7 @@ export const addTodolistTC = (title: string) => {
                 }
             })
             .catch((error) => {
-                console.log(error)
-                handleServerNetworkError(error.message , dispatch)
+                handleServerNetworkError(error , dispatch)
 
             })
     }
@@ -163,7 +162,7 @@ export const removeTodolistTC = (todolistID: string) => {
                 }
             })
             .catch((error) => {
-                handleServerNetworkError(error.message , dispatch)
+                handleServerNetworkError(error , dispatch)
 
             })
     }
@@ -182,7 +181,7 @@ export const changeTodolistTitleTC = (todolistID: string , title: string) => {
                 }
             })
             .catch((error) => {
-                handleServerNetworkError(error.message , dispatch)
+                handleServerNetworkError(error , dispatch)
 
             })
     }

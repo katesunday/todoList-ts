@@ -1,67 +1,52 @@
-import React , {useCallback , useEffect} from 'react';
+import React , { useEffect} from 'react';
 import './App.css';
-import ToDoList from "./ToDoList";
-import {
-    addTodolistTC ,
-    fetchTodolistsTC ,
-    TodolistDomainType
-} from "./reducers/todolistsReducer";
-import {TasksStateType} from "./reducers/tasksReducers";
 import ButtonAppBar from "./components/ButtonAppBar";
-import {useDispatch , useSelector} from "react-redux";
-import {AppRootStateType , useAppSelector} from "./store/store";
-import AddItemForm from "./AddItemForm";
-import {Container , Grid , LinearProgress , Paper} from "@mui/material";
+import {useDispatch } from "react-redux";
+import {CircularProgress , Container } from "@mui/material";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackbar";
+import {Login} from "./features/Login";
+import {Routes , Route , BrowserRouter ,} from 'react-router-dom';
+import {TodolistsList} from "./TodolistsList";
+import {Navigate} from 'react-router-dom'
+import {initializeAppTC} from "./reducers/appReducer";
+import {useAppSelector} from "./store/store";
 
 
-function App() {
+type PropsType = {
+    demo?: boolean
+}
 
+function App({demo = false}: PropsType) {
     const dispatch = useDispatch()
-    const todolists = useSelector<AppRootStateType , Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType , TasksStateType>(state => state.tasks)
-    const status = useAppSelector((state) => state.app.status)
+    const isInitialized = useAppSelector(state => state.app.isInitialized)
 
-    useEffect(() => {
-        dispatch(fetchTodolistsTC())
-    } , [])
+    useEffect(()=>{
+       dispatch(initializeAppTC())
+    },[])
 
-    const addTodoList = useCallback((title: string) => {
-        dispatch(addTodolistTC(title))
-    } , [dispatch])
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
+
 
     return (
         <div>
             <ErrorSnackbar/>
             <ButtonAppBar/>
 
-            {status==='loading' && <LinearProgress />}
+
             <Container fixed>
-
-                <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodoList}  disabled={status} />
-                </Grid>
-
-                <Grid container spacing={3}>
-                    {todolists.map((el) => {
-                        let tasksForTodolist = tasks[el.id];
-                        return (
-                            <Grid key={el.id} item>
-                                <Paper key={el.id} elevation={6} style={{padding: '10px'}}>
-                                    <ToDoList
-                                        key={el.id}
-                                        todolistID={el.id}
-                                        title={el.title}
-                                        tasks={tasksForTodolist}
-                                        filter={el.filter}
-                                        entityStatus = {el.entityStatus}
-                                    />
-                                </Paper>
-                            </Grid>
-                        )
-                    })}
-
-                </Grid>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path='/login' element={<Login/>}/>
+                        <Route path='/' element={<TodolistsList demo={demo}/>}/>
+                        <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                        <Route path="*" element={<Navigate to = '/404'/>}/>
+                    </Routes>
+                </BrowserRouter>
             </Container>
 
         </div>
