@@ -11,7 +11,7 @@ import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {loginTC} from "../reducers/auth-reducer";
 import {useAppSelector} from "../store/store";
-import { Navigate } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
 
 type FormikErrorType = {
@@ -75,7 +75,7 @@ export const Login = () => {
                             // name='email'
                             // onChange={formik.handleChange}
                             // value={formik.values.email}
-                                   onBlur={formik.handleBlur}
+                            //        onBlur={formik.handleBlur}
                         />
                         {formik.touched.email && formik.errors.email ?
                             <div style={{color: 'red'}}>{formik.errors.email}</div> : null}
@@ -83,15 +83,14 @@ export const Login = () => {
                         <TextField type="password" label="Password"
                                    margin="normal"
                                    {...formik.getFieldProps('password')}
-                                   onBlur={formik.handleBlur}
                         />
                         {formik.touched.password && formik.errors.password ?
                             <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
 
                         <FormControlLabel label={'Remember me'}
                                           control={
-                                              <Checkbox name='rememberMe' onChange={formik.handleChange}
-                                                        value={formik.values.rememberMe}
+                                              <Checkbox
+                                                  {...formik.getFieldProps('rememberMe')}
                                               />}
                         />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>

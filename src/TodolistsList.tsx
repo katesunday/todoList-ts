@@ -32,7 +32,7 @@ export const TodolistsList = () => {
     if (!isLoggedIn) {
         return <Navigate to='/login'/>
     }
-
+    console.log(tasks)
     return (
         <div>
             <ErrorSnackbar/>
