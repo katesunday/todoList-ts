@@ -7,12 +7,11 @@ import {AppRootStateType , useAppSelector} from "./store/store";
 import {addTodolistTC , fetchTodolistsTC , TodolistDomainType} from "./reducers/todolistsReducer";
 import {TasksStateType} from "./reducers/tasksReducers";
 import {Navigate} from "react-router-dom";
+import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackbar";
 
-type PropsType = {
-    demo?: boolean
-}
 
-export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
+
+export const TodolistsList = () => {
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootStateType , Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType , TasksStateType>(state => state.tasks)
@@ -20,7 +19,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     useEffect(() => {
-        if (demo || !isLoggedIn) {
+        if (!isLoggedIn) {
             return;
         }
         dispatch(fetchTodolistsTC())
@@ -36,6 +35,9 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
     return (
         <div>
+            <ErrorSnackbar/>
+
+
             {status === 'loading' && <LinearProgress/>}
             <Grid container style={{padding: '20px'}}>
                 <AddItemForm addItem={addTodoList} disabled={status}/>
