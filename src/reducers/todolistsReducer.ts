@@ -168,13 +168,11 @@ export const addTodolistTC = (title: string) => {
 
 export const removeTodolistTC = (todolistID: string) => {
     return (dispatch: Dispatch) => {
-        dispatch(setAppStatusAC('loading'))
         dispatch(changeTodolistEntityStatusAC(todolistID , 'loading'))
         todolistAPI.deleteTodolist(todolistID)
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(removeTodoListAC(todolistID))
-                    dispatch(setAppStatusAC('succeeded'))
                     dispatch(changeTodolistEntityStatusAC(todolistID , 'succeeded'))
                 } else {
                     handleServerAppError(res.data , dispatch)

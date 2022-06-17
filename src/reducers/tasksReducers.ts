@@ -178,7 +178,6 @@ export const addTaskTC = (todolistID: string , title: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     const task = res.data.data.item
-                    console.log(res.data.data)
                     task && dispatch(addTasksAC(task))
                     dispatch(setAppStatusAC('succeeded'))
                     dispatch(changeTodolistEntityStatusAC(todolistID , 'succeeded'))
@@ -214,7 +213,7 @@ export const removeTaskTC = (todolistID: string , taskId: string) => {
                 }
             })
             .catch((error) => {
-                handleServerNetworkError(error.message , dispatch)
+                handleServerNetworkError(error , dispatch)
 
             })
     }
@@ -247,7 +246,7 @@ export const changeTaskStatusTC = (todolistID: string , taskId: string , status:
                     }
                 })
                 .catch((error) => {
-                    handleServerNetworkError(error.message , dispatch)
+                    handleServerNetworkError(error , dispatch)
 
                 })
         }
@@ -277,20 +276,11 @@ export const changeTaskTitleTC = (todolistID: string , taskId: string , title: s
                         dispatch(changeTodolistEntityStatusAC(todolistID , 'succeeded'))
                     } else {
                         handleServerAppError(res.data , dispatch)
-                        // if(res.data.messages.length){
-                        //     dispatch(setAppErrorAC(res.data.messages[0]))
-                        // }
-                        // else {
-                        //     dispatch(setAppErrorAC('Some error occurred'))
-                        // }
-                        // dispatch(setAppStatusAC('failed'))
                     }
 
                 })
                 .catch((error) => {
-                    handleServerNetworkError(error.message , dispatch)
-                    // dispatch(setAppErrorAC(error.message))
-                    // dispatch(setAppStatusAC('failed'))
+                    handleServerNetworkError(error , dispatch)
                 })
         }
     }
