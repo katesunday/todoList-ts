@@ -2,6 +2,7 @@ import {authAPI} from "../api/todolist-api";
 import {setIsLoggedInAC} from "./auth-reducer";
 import {Dispatch} from "redux";
 import {handleServerAppError , handleServerNetworkError} from "../utils/error-utils";
+import {clearDataACType} from "./todolistsReducer";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type ErrorStateType = string | null
@@ -17,7 +18,8 @@ export type InitialStateType = typeof initialState
 export type ActionsAppType =
     ReturnType<typeof setAppStatusAC> |
     ReturnType<typeof setAppErrorAC> |
-    ReturnType<typeof setIsInitializedAC>
+    ReturnType<typeof setIsInitializedAC> |
+    clearDataACType
 
 export const appReducer = (state: InitialStateType = initialState, action: ActionsAppType): InitialStateType => {
     switch (action.type) {

@@ -1,9 +1,9 @@
-import React , {memo , useCallback , useEffect} from 'react';
+import React , {memo , useCallback } from 'react';
 import TodoListHeader from "./TodoListHeader";
 import TasksList from "./TasksList";
 import {useDispatch } from "react-redux";
 import {FilterValuesType  , removeTodolistTC} from "./reducers/todolistsReducer";
-import {fetchTasksTC , TaskDomainType} from "./reducers/tasksReducers";
+import { TaskDomainType} from "./reducers/tasksReducers";
 import {RequestStatusType} from "./reducers/appReducer";
 import {LinearProgress} from "@mui/material";
 
@@ -18,11 +18,6 @@ type ToDoListPropsType = {
 
 const ToDoList = memo((props: ToDoListPropsType) => {
     const dispatch = useDispatch()
-
-    useEffect(()=>{
-
-        dispatch(fetchTasksTC(props.todolistID))
-    },[])
 
     const removeTodoList = useCallback((todolistID: string) => {
         dispatch(removeTodolistTC(todolistID))

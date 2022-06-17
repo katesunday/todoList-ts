@@ -1,6 +1,6 @@
 import {
     addNewTodoListACType ,
-    changeTodolistEntityStatusAC , changeTodolistEntityStatusACType ,
+    changeTodolistEntityStatusAC , changeTodolistEntityStatusACType , clearDataACType ,
     removeTodoListACType ,
     setTodolistsACType
 } from "./todolistsReducer";
@@ -21,10 +21,11 @@ export type TasksStateType = {
 const initialState: TasksStateType = {}
 
 
-type tasksReducersACType = removeTasksACType | addTasksACType | changeTaskStatusACType |
+export type tasksReducersACType = removeTasksACType | addTasksACType | changeTaskStatusACType |
     updateTaskACType | removeTodoListACType | addNewTodoListACType | addNewTodolistACType
     | setTodolistsACType | ReturnType<typeof setTasksAC> | ReturnType<typeof setAppStatusAC> |
-    ReturnType<typeof setAppErrorAC> | changeTodolistEntityStatusACType | ReturnType<typeof changeTaskEntityStatusAC>
+    ReturnType<typeof setAppErrorAC> | changeTodolistEntityStatusACType | ReturnType<typeof changeTaskEntityStatusAC> |
+    clearDataACType
 
 export const tasksReducers = (state: TasksStateType = initialState , action: tasksReducersACType): TasksStateType => {
     switch (action.type) {
@@ -83,6 +84,9 @@ export const tasksReducers = (state: TasksStateType = initialState , action: tas
                 [action.payload.todolistID]:state[action.payload.todolistID].map((el)=>
                     el.id === action.payload.id? {...el,taskEntityStatus:action.payload.entityStatus}:el)
             }
+        }
+        case "CLEAR-DATA":{
+            return {}
         }
 
         default:
