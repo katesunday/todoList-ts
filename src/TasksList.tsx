@@ -2,8 +2,8 @@ import React , {memo , useCallback} from 'react';
 import Task from "./Task";
 import ControlButtons from "./ControlButtons";
 import {useDispatch } from "react-redux";
-import {filterReducerAC , FilterValuesType} from "./reducers/todolistsReducer";
-import {TaskStatuses , TaskType} from "./api/todolist-api";
+import {changeTodolistFilterAC , FilterValuesType} from "./reducers/todolistsReducer";
+import {TaskStatuses } from "./api/todolist-api";
 import {TaskDomainType} from "./reducers/tasksReducers";
 
 
@@ -11,7 +11,6 @@ type TasksListPropsType = {
     tasks: TaskDomainType[]
     filter: FilterValuesType
     todolistID:string
-    //entityStatus: RequestStatusType
 }
 
 const TasksList = memo((props: TasksListPropsType) => {
@@ -19,7 +18,7 @@ const TasksList = memo((props: TasksListPropsType) => {
     const dispatch = useDispatch()
 
     const changeFilter = useCallback((todolistID: string , value: FilterValuesType) => {
-        dispatch(filterReducerAC(todolistID , value))
+        dispatch(changeTodolistFilterAC({todolistID , value}))
     },[dispatch])
 
     let tasksForTodolist = props.tasks
