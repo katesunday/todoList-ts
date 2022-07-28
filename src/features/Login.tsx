@@ -7,11 +7,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useFormik} from "formik";
+import {FormikHelpers , useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {loginTC} from "../reducers/auth-reducer";
-import {useAppSelector} from "../store/store";
+import {useAppDispatch , useAppSelector} from "../store/store";
 import {Navigate} from 'react-router-dom';
+import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackbar";
 
 
 type FormikErrorType = {
@@ -19,10 +20,14 @@ type FormikErrorType = {
     password?: string
     rememberMe?: boolean
 }
-
+type FormikValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
 export const Login = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     const formik = useFormik({
@@ -46,8 +51,14 @@ export const Login = () => {
 
             return errors;
         } ,
-        onSubmit: values => {
-            dispatch(loginTC(values))
+        onSubmit: async (values:FormikValuesType,formikHelpers:FormikHelpers<FormikValuesType>) => {
+           const action = await dispatch(loginTC(values))
+            if(loginTC.rejected.match(action)){
+                if(action.payload?.fieldsErrors){
+                    const error = action.payload.fieldsErrors
+                    formikHelpers.setFieldError(error.field,error.error)
+                }
+            }
             formik.resetForm()
         } ,
     })
@@ -60,6 +71,7 @@ export const Login = () => {
             <form onSubmit={formik.handleSubmit}>
                 <FormControl>
                     <FormLabel>
+                        <ErrorSnackbar/>
                         <p>To log in get registered
                             <a href={'https://social-network.samuraijs.com/'}
                                target={'_blank'}> here

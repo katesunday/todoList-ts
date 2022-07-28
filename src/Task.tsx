@@ -17,13 +17,13 @@ const Task = memo((props: TaskPropType) => {
     const completedClass = `task ${props.status === TaskStatuses.Completed ? 'completedTask' : ''}`;
 
     const removeTask = useCallback(() => {
-        dispatch(removeTaskTC(props.todolistID , props.id))
+        dispatch(removeTaskTC({todolistID:props.todolistID ,taskId: props.id}))
     } , [dispatch , props.todolistID , props.id])
 
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
         const newIsDoneValue = e.currentTarget.checked
-        dispatch(changeTaskStatusTC(props.todolistID , props.id ,
-            newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))
+        dispatch(changeTaskStatusTC({todolistID:props.todolistID ,taskId: props.id ,
+           status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New}))
     }
     const updateTaskTitleHandler = useCallback((title: string) => {
         dispatch(changeTaskTitleTC(props.todolistID , props.id , title))
