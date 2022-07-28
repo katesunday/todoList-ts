@@ -26,7 +26,7 @@ const Task = memo((props: TaskPropType) => {
            status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New}))
     }
     const updateTaskTitleHandler = useCallback((title: string) => {
-        dispatch(changeTaskTitleTC(props.todolistID , props.id , title))
+        dispatch(changeTaskTitleTC({todolistID:props.todolistID , taskId:props.id , title}))
     } , [props , dispatch])
     return (
         <li key={props.id}>

@@ -1,11 +1,9 @@
 export {}
 import {
-    addTaskTC , changeTaskStatusTC ,
+    addTaskTC , changeTaskStatusTC , changeTaskTitleTC ,
     removeTaskTC ,
-    // removeTasksAC ,
     tasksReducers ,
     TasksStateType ,
-    updateTaskAC
 } from './tasksReducers';
 import {addNewTodoListAC , removeTodoListAC } from "./todolistsReducer";
 import {TaskPriorities , TaskStatuses} from "../api/todolist-api";
@@ -201,7 +199,7 @@ test('status of specified task should be changed' , () => {
 });
 
 test('title of task change' , () => {
-    const action = updateTaskAC({todolistID:"todolistId2" ,taskID: '2' ,updateTitle: 'blabla'});
+    const action = changeTaskTitleTC.fulfilled({todolistID:"todolistId2" ,taskID: '2' ,updateTitle: 'blabla'},'',{todolistID:"todolistId2" ,taskId: '2' ,title: 'blabla'});
 
     const endState = tasksReducers(startState , action)
 
