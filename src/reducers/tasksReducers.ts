@@ -40,7 +40,6 @@ export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks' , async (todolis
 })
 
 export const removeTaskTC = createAsyncThunk('tasks/removeTask' , async (param: { todolistID: string, taskId: string } , thunkAPI) => {
-    thunkAPI.dispatch(changeTodolistEntityStatusAC({id: param.todolistID , entityStatus: 'loading'}))
     thunkAPI.dispatch(changeTaskEntityStatusAC({
         todolistID: param.todolistID ,
         id: param.taskId ,
@@ -49,14 +48,12 @@ export const removeTaskTC = createAsyncThunk('tasks/removeTask' , async (param: 
     const res = await todolistAPI.deleteTask(param.todolistID , param.taskId)
     try {
         if (res.data.resultCode === 0) {
-            //thunkAPI.dispatch(removeTasksAC({todolistID:param.todolistID , taskID: param.taskId}))
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
             thunkAPI.dispatch(changeTaskEntityStatusAC({
                 todolistID: param.todolistID ,
                 id: param.taskId ,
                 entityStatus: 'succeeded'
             }))
-            thunkAPI.dispatch(changeTodolistEntityStatusAC({id: param.todolistID , entityStatus: 'succeeded'}))
             return {todolistID: param.todolistID , taskID: param.taskId}
         } else {
             handleServerAppError(res.data , thunkAPI.dispatch)
