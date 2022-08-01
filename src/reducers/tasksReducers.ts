@@ -1,6 +1,6 @@
 import {
-    addNewTodoListAC ,
-    changeTodolistEntityStatusAC , clearTodolistsDataAC , removeTodoListAC , setTodolistsAC
+    addTodolistTC ,
+    changeTodolistEntityStatusAC , clearTodolistsDataAC , removeTodolistTC , setTodolistsAC
 } from "./todolistsReducer";
 import {TaskStatuses , TaskType , todolistAPI} from "../api/todolist-api";
 import {Dispatch} from "redux";
@@ -18,7 +18,6 @@ export type TasksStateType = {
     [key: string]: Array<TaskDomainType>,
 }
 
-const initialState: TasksStateType = {}
 
 export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks' , async (todolistID: string , thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
@@ -188,7 +187,7 @@ export const changeTaskTitleTC = createAsyncThunk('tasks/changeTaskTitle',async 
 
 const slice = createSlice({
     name: 'tasks' ,
-    initialState: initialState ,
+    initialState: {} as TasksStateType ,
     reducers: {
         changeTaskEntityStatusAC(state , action: PayloadAction<{ todolistID: string, id: string, entityStatus: RequestStatusType }>) {
             const tasks = state[action.payload.todolistID]
@@ -202,10 +201,10 @@ const slice = createSlice({
                 state[el.id] = []
             })
         });
-        builder.addCase(addNewTodoListAC , (state , action) => {
+        builder.addCase(addTodolistTC.fulfilled , (state , action) => {
             state[action.payload.newID] = []
         })
-        builder.addCase(removeTodoListAC , (state , action) => {
+        builder.addCase(removeTodolistTC.fulfilled , (state , action) => {
             delete state[action.payload.todolistID]
         })
         builder.addCase(clearTodolistsDataAC , state => {

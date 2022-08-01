@@ -19,7 +19,7 @@ const TodoListHeader = memo((props: TodoListHeaderPropsType) => {
     const dispatch = useDispatch()
 
     const updateTodoListTitleHandler = useCallback((title: string) => {
-        dispatch(changeTodolistTitleTC(props.todolistID , title))
+        dispatch(changeTodolistTitleTC({todolistID:props.todolistID , title}))
     } , [props.todolistID , dispatch])
 
     const removeTodoList = () => {
