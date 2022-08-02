@@ -1,6 +1,6 @@
 import {
     addTodolistTC ,
-    changeTodolistEntityStatusAC , clearTodolistsDataAC , removeTodolistTC , setTodolistsAC
+    changeTodolistEntityStatusAC , clearTodolistsDataAC , fetchTodolistsTC , removeTodolistTC
 } from "./todolistsReducer";
 import {TaskStatuses , TaskType , todolistAPI} from "../api/todolist-api";
 import {Dispatch} from "redux";
@@ -196,11 +196,11 @@ const slice = createSlice({
         } ,
     } ,
     extraReducers: (builder) => {
-        builder.addCase(setTodolistsAC , (state , action) => {
+        builder.addCase(fetchTodolistsTC.fulfilled , (state , action) => {
             action.payload.todolists.forEach((el) => {
                 state[el.id] = []
             })
-        });
+        })
         builder.addCase(addTodolistTC.fulfilled , (state , action) => {
             state[action.payload.newID] = []
         })
@@ -208,7 +208,7 @@ const slice = createSlice({
             delete state[action.payload.todolistID]
         })
         builder.addCase(clearTodolistsDataAC , state => {
-            return state = {}
+            return {}
         })
         builder.addCase(fetchTasksTC.fulfilled , (state , action) => {
             if (action.payload) {

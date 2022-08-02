@@ -21,7 +21,7 @@ const TasksList = memo((props: TasksListPropsType) => {
         dispatch(changeTodolistFilterAC({todolistID , value}))
     },[dispatch])
 
-    let tasksForTodolist = props.tasks
+    let tasksForTodolist = props.tasks || []
     if (props.filter === "active") {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New);
     } else if (props.filter === "completed") {
